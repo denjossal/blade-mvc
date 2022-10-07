@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<ul>
+    #for(user : users)
+    <li> ${user.username} : ${user.age}</li>
+    #end
+</ul>
+
+<form id="form" action="" method="post">
+    UserName: <input type="text" name="id" value="f77074ae-1579-47e7-b6eb-2d22d3ea88d0"/><br/>
+    UserName: <input type="text" name="username" value=""/><br/>
+    PassWord: <input type="text" name="age" value=""/><br/>
+    <input id="submit" type="button" name="submit" value="submit">
+</form>
+<script src="/static/jquery-3.6.1.min.js"></script>
+<script>
+    $(document).ready(function(){
+        $("#submit").on('click', function(){
+            var loginForm = $('form').serializeArray();
+            var loginFormObject = {};
+            $.each(loginForm,function(i, v) {
+                loginFormObject[v.name] = v.value;
+            });
+            console.log(loginFormObject );
+            // send ajax
+            $.ajax({
+                url: '/save', // url where to submit the request
+                type : "POST", // type of action POST || GET
+                dataType : 'json', // data type
+                data : JSON.stringify(loginFormObject),
+                contentType: 'application/json;charset=UTF-8',
+                success : function(result) {
+                    // you can see the result from the console
+                    // tab of the developer tools
+                    console.log(result);
+                },
+                error: function(xhr, resp, text) {
+                    console.log(xhr, resp, text);
+                }
+            })
+        });
+    });
+
+</script>
+</body>
+</html>
